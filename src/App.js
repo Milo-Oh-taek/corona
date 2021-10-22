@@ -4,23 +4,18 @@ import Contents from './components/Contents';
 import CountryList from './components/CountryList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
+import { Provider } from 'react-redux';
+import { store } from './redux/store'
 
 function App() {
-  const [country, setCountry] = useState('kr');
-  useEffect(() => {
-    console.log("리랜더링됨:" + country);
-  },[country])
-
-  const getCountry = (from) => {
-    setCountry(from);
-    console.log("App:getCountry" + country);
-  }
-
+ 
   return (
     <div className="App">
-      <Header />
-      <CountryList send={country} getCountry={getCountry} />
-      <Contents send={country} />
+      <Provider store={store}>
+        <Header />
+        <CountryList />
+        <Contents />
+      </Provider>
     </div>
   );
 }

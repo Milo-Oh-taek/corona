@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Bar } from 'react-chartjs-2';
+import { useSelector } from 'react-redux';
 
-const Contents = (props) => {
-  
-    const [showCountry, setShowCountry] = useState(props.send);
+const Contents = () => {
+
     const [showData, setShowData] = useState({});
+
+    const country = useSelector((state) => state.country)
+    console.log(country)
 
     const setGraph = (rawData) => {
       const arr = rawData.reduce((acc,cur) => {
@@ -53,7 +56,7 @@ const Contents = (props) => {
 
     useEffect(()=>{
       console.log("contents update!!!");
-      fetch(`https://api.covid19api.com/total/country/${props.send}`)
+      fetch(`https://api.covid19api.com/total/country/${country}`)
       .then ((res) => res.json())
       .then(data => {
 
@@ -63,7 +66,7 @@ const Contents = (props) => {
 
       })
 
-    },[props.send])
+    },[country])
 
     return (
         <section>
