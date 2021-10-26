@@ -3,15 +3,14 @@ import Header from './components/Header';
 import Contents from './components/Contents';
 import CountryList from './components/CountryList';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
-import { store } from './redux/store'
+import { store} from './store'
 
 function App() {
  
   return (
     <div className="App">
-      <Provider store={store}>
+      <Provider store ={ store}>
         <Header />
         <CountryList />
         <Contents />
