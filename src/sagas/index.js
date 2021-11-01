@@ -1,8 +1,8 @@
 import { takeEvery, takeLatest, call, put, all, fork } from 'redux-saga/effects'
 import axios from 'axios'
 
-function fetchApi(){
-    return axios.get(`https://api.covid19api.com/total/country/kr`)
+function fetchApi(data){
+    return axios.get(`https://api.covid19api.com/total/country/${data}`)
 }
 
 const dataProcess = rawData => {
@@ -51,14 +51,18 @@ const dataProcess = rawData => {
 
 }
 
-export function* fetchCorona(){
+export function* fetchCorona(action){
+
     try {
-        const response = yield call(fetchApi)
-        const showData = dataProcess(response.data)
-        console.log(showData);
+        const response = yield call(fetchApi,action.data);
+        const showData = dataProcess(response.data);
+
         yield put({
             type: 'FETCH_REQUEST_SUCCESS',
-            showData: showData
+            data: {
+                showData: showData,
+                country: action.data,
+            }
         })
     }catch(err){
         yield put({
@@ -70,6 +74,7 @@ export function* fetchCorona(){
 }
 
 export function* watchFetchRequest(){
+    console.log("watchFetchRequest");
     yield takeLatest('FETCH_REQUEST', fetchCorona)
 }
 
